@@ -37,8 +37,8 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.12"
-      - run: uv sync
-      - run: uv run pip-audit
+      - run: uv sync --group dev
+      - run: uv run pip-audit --skip-editable
 
   build:
     name: Build
