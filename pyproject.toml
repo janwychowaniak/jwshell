@@ -1,0 +1,101 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jwshell"
+version = "0.1.0"
+description = "LLM-powered shell command explainer and generator."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.12"
+authors = [{ name = "Jan Wychowaniak" }]
+keywords = ["cli", "shell", "bash", "zsh", "llm", "openrouter"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Shells",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+dependencies = [
+    "openrouter>=0.9,<1.0",
+    "typer>=0.12,<1.0",
+    "rich>=13.0,<15.0",
+    "pydantic>=2.7,<3.0",
+]
+
+[project.scripts]
+jwshell = "jwshell.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/janwychowaniak/jwshell"
+Repository = "https://github.com/janwychowaniak/jwshell"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-mock>=3.12",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jwshell"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/jwshell", "README.md", "LICENSE", "pyproject.toml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "SIM",  # flake8-simplify
+    "RUF",  # ruff-specific
+    "ANN",  # flake8-annotations
+    "TC",   # flake8-type-checking
+    "N",    # pep8-naming
+    "PTH",  # flake8-use-pathlib
+    "C4",   # flake8-comprehensions
+]
+ignore = [
+    "ANN401", # allow Any in narrow places (LLM raw payloads)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src", "tests"]
+warn_unreachable = true
+warn_unused_ignores = true
+enable_error_code = ["redundant-expr", "truthy-bool", "ignore-without-code"]
+
+[[tool.mypy.overrides]]
+module = ["openrouter.*"]
+ignore_missing_imports = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+filterwarnings = ["error"]
