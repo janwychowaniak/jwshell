@@ -1,5 +1,7 @@
 # jwshell
 
+[![PyPI version](https://img.shields.io/pypi/v/jwshell.svg)](https://pypi.org/project/jwshell/)
+
 LLM-powered shell command explainer and generator.
 
 `jwshell` takes a single string and either:
@@ -12,18 +14,12 @@ It uses [OpenRouter](https://openrouter.ai/) under the hood.
 
 ## Install
 
-Requires Python 3.12+. The recommended workflow uses [uv](https://docs.astral.sh/uv/).
+Requires Python 3.12+.
 
 ```sh
-git clone https://github.com/janwychowaniak/jwshell.git
-cd jwshell
-uv sync
-```
-
-To install globally as a CLI:
-
-```sh
-uv tool install .
+uv tool install jwshell    # recommended
+pipx install jwshell       # alternative
+pip install jwshell        # plain pip
 ```
 
 ## Configure
@@ -62,7 +58,11 @@ jwshell --model anthropic/claude-sonnet-4.6 "tar all logs older than 7 days"
 ## Development
 
 ```sh
+git clone https://github.com/janwychowaniak/jwshell.git
+cd jwshell
 uv sync               # install runtime + dev deps
+pre-commit install    # optional: ruff lint + format on commit
+
 uv run ruff check .   # lint
 uv run ruff format .  # format
 uv run mypy           # strict type-check
